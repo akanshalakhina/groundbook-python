@@ -18,8 +18,10 @@ def test_a_valid_request_is_201_requested_with_the_shadow_and_a_hold(client, db)
         row = s.get(Booking, 1)
         assert row.state == "requested" and row.club_name == CLUB and row.requested_at.replace(tzinfo=None) == T0.replace(tzinfo=None)
     b = booking(client, "BK0001")
-    assert b == {"booking_id": "BK0001", "ground": "A", "event": "league", "from": ts("14:00"), "to": ts("17:00"),
-                 "ground_held_from": ts("13:20"), "ground_held_to": ts("17:30"), "state": "requested"}
+    assert {k: v for k, v in b.items() if k != "events"} == {"booking_id": "BK0001", "ground": "A", "event": "league", "from": ts("14:00"),
+                                                          "to": ts("17:00"), "ground_held_from": ts("13:20"), "ground_held_to": ts("17:30"),
+                                                          "state": "requested"}
+    assert b["events"] == [{"at": iso(T0), "kind": "requested", "from": ts("14:00"), "to": ts("17:00")}]
     assert "club" not in b and "hold_until" not in b
 
 
