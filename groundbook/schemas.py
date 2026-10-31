@@ -128,3 +128,17 @@ class CancelOut(BaseModel):
     late: bool
 
 
+class MoveIn(Interval):
+    pass
+
+
+class MoveOut(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    booking_id: str
+    from_at: UtcZ = Field(serialization_alias="from")
+    to_at: UtcZ = Field(serialization_alias="to")
+    ground_held_from: UtcZ
+    ground_held_to: UtcZ
+    moved_at: UtcZ
+
+

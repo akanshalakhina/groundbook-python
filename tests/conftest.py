@@ -92,3 +92,7 @@ def confirm(client, booking_id):
 
 def cancel(client, booking_id):
     return client.post(f"/bookings/{booking_id}/cancel")
+
+
+def move(client, booking_id, frm, to, day=SAT):
+    return client.post(f"/bookings/{booking_id}/move", json={"from": ts(frm, day), "to": ts(to, day)})

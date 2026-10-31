@@ -53,7 +53,7 @@ def is_live(booking: Booking, now: datetime) -> bool:
 def clashes(session: Session, ground: Ground, held_from: datetime, held_to: datetime, now: datetime,
             exclude_id: int | None = None) -> list[tuple[Booking, datetime, datetime]]:
     """The clash predicate, on shadows, half-open: held_from_new < held_to_other AND held_from_other < held_to_new.
-    The request and the confirm call this one function; `exclude_id` is the booking itself."""
+    Requesting, confirming and moving all call this one function. `exclude_id` is the booking itself (the one being confirmed or moved)."""
     window_start, window_end = held_from - timedelta(days=1), held_to + timedelta(days=1)
     rows = session.execute(select(Booking, EventType).join(EventType, Booking.event_type_id == EventType.id)
                            .where(Booking.ground_id == ground.id, Booking.from_at >= window_start, Booking.from_at < window_end)

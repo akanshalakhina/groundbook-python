@@ -54,7 +54,7 @@ class EventType(Base):
 
 class Booking(Base):
     """One row per request. The interval is [from_at, to_at); the shadow is derived. It also holds the transition
-    stamps."""
+    stamps and the last move."""
 
     __tablename__ = "bookings"
 
@@ -71,5 +71,8 @@ class Booking(Base):
     confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     cancelled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     late_cancel: Mapped[bool] = mapped_column(Boolean, default=False)
+    moved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    previous_from: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    previous_to: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
 
