@@ -14,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from .db import init_db, make_engine, make_sessionmaker
 from .handlers import INTERNAL_RESPONSE, PROBLEM, VALIDATION_RESPONSE, install_handlers
 from .routers import bookings, grounds, moves
+from .routers import settings as settings_router
 from .services.seed import seed
 from .settings import Settings
 
@@ -22,6 +23,7 @@ TAGS = [
     {"name": "grounds", "description": "The complex -- four grounds, their hours, six event types with buffers -- and one ground's day as blocks with shadows"},
     {"name": "bookings", "description": "A club asks for a slot; the office confirms or cancels it"},
     {"name": "moves", "description": "A booking moves, the whole new interval re-checked with its buffers"},
+    {"name": "settings", "description": "Rules in force"},
 ]
 
 
@@ -70,7 +72,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.sessionmaker = make_sessionmaker(engine)
 
     install_handlers(app)
-    for r in (grounds.router, bookings.router, moves.router):
+    for r in (grounds.router, bookings.router, moves.router, settings_router.router):
         app.include_router(r)
 
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
