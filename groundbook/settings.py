@@ -1,4 +1,4 @@
-"""Settings loaded once from the environment or a local .env file."""
+"""Settings loaded once from the environment or a local .env file. Nothing is hard-coded; an env-file can feed it."""
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
