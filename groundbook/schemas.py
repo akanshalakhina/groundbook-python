@@ -165,3 +165,5 @@ class SettingsOut(BaseModel):
     buffers: dict[str, tuple[int, int]]
 
 
+class HealthOut(BaseModel):
+    status: Literal["ok"]
